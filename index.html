@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SiteLog — Coming soon</title>
+  <meta name="description" content="SiteLog helps small construction contractors log daily site progress, materials and photos from their phone. Join the waitlist.">
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --surface: #ffffff;
+      --text: #1d1b18;
+      --muted: #5c574f;
+      --accent: #f2a900;      /* safety yellow */
+      --accent-ink: #1d1b18;
+      --line: #e3ddd2;
+      --ok: #1f7a3a;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #16140f;
+        --surface: #211e18;
+        --text: #f3efe7;
+        --muted: #b3ab9d;
+        --line: #3a352c;
+        --ok: #6fd18f;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* Hazard-tape strip across the top */
+    .tape {
+      height: 10px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--accent) 0 14px,
+        var(--text) 14px 28px
+      );
+    }
+
+    header, main, footer {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    header {
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: var(--accent-ink);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+
+    .badge {
+      align-self: flex-start;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 12px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2rem, 7vw, 3.25rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    h1 span {
+      background: linear-gradient(transparent 62%, var(--accent) 62%);
+      padding: 0 2px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      h1 span {
+        background: none;
+        color: var(--accent);
+      }
+    }
+
+    .lede {
+      margin: 0 0 32px;
+      font-size: clamp(1.05rem, 2.6vw, 1.2rem);
+      color: var(--muted);
+      max-width: 34em;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    label.sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    input[type="email"] {
+      flex: 1 1 220px;
+      min-width: 0;
+      font: inherit;
+      font-size: 1rem;          /* 16px stops iOS zoom on focus */
+      color: var(--text);
+      background: transparent;
+      border: 0;
+      padding: 12px 10px;
+      border-radius: 8px;
+    }
+
+    input[type="email"]:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 0;
+    }
+
+    button {
+      flex: 0 0 auto;
+      font: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--accent-ink);
+      background: var(--accent);
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 22px;
+      min-height: 48px;
+      cursor: pointer;
+    }
+
+    button:hover { filter: brightness(1.05); }
+    button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+    /* On narrow phones, stack the field and button */
+    @media (max-width: 420px) {
+      button { flex: 1 1 100%; }
+    }
+
+    .note {
+      margin: 12px 2px 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .thanks {
+      display: none;
+      margin: 12px 2px 0;
+      font-weight: 600;
+      color: var(--ok);
+    }
+
+    form.done + .note { display: none; }
+    form.done ~ .thanks { display: block; }
+
+    .features {
+      list-style: none;
+      margin: 40px 0 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .features li {
+      border-top: 3px solid var(--accent);
+      padding-top: 10px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .features strong {
+      display: block;
+      color: var(--text);
+    }
+
+    @media (max-width: 560px) {
+      .features { grid-template-columns: 1fr; gap: 16px; }
+    }
+
+    footer {
+      padding-bottom: 24px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="tape" aria-hidden="true"></div>
+
+  <header>
+    <div class="logo" aria-hidden="true">S</div>
+    SiteLog
+  </header>
+
+  <main>
+    <p class="badge">Coming soon</p>
+
+    <h1>Your site diary, <span>in your pocket.</span></h1>
+
+    <p class="lede">
+      SiteLog lets contractors and site supervisors record daily progress, materials and photos straight from their phone.
+      No more registers, scattered WhatsApp photos or end-of-month guesswork.
+    </p>
+
+    <form id="waitlist" action="#" method="post">
+      <label class="sr-only" for="email">Email address</label>
+      <input id="email" name="email" type="email" placeholder="you@company.in" autocomplete="email" required>
+      <button type="submit">Join the waitlist</button>
+    </form>
+    <p class="note">Be first to try it. We'll only email you about the launch.</p>
+    <p class="thanks" role="status">Thanks! You're on the list — we'll be in touch.</p>
+
+    <ul class="features">
+      <li><strong>Daily progress</strong>Log work done in under a minute.</li>
+      <li><strong>Materials</strong>Track cement, steel and deliveries.</li>
+      <li><strong>Photos</strong>Date-stamped proof for every site.</li>
+    </ul>
+  </main>
+
+  <footer>© 2026 SiteLog. Made in India.</footer>
+
+  <script>
+    // Placeholder: shows a confirmation only. Connect to a real backend to store emails.
+    document.getElementById('waitlist').addEventListener('submit', function (e) {
+      e.preventDefault();
+      this.classList.add('done');
+      this.querySelector('button').disabled = true;
+      this.querySelector('input').disabled = true;
+    });
+  </script>
+</body>
+</html>
