@@ -11,8 +11,9 @@
       --surface: #ffffff;
       --text: #1d1b18;
       --muted: #5c574f;
-      --accent: #f2a900;      /* safety yellow */
-      --accent-ink: #1d1b18;
+      --accent: #0A6A6C;      /* brand deep teal */
+      --accent-ink: #ffffff;
+      --accent-text: #0A6A6C; /* teal for text, outlines and lines */
       --line: #e3ddd2;
       --ok: #1f7a3a;
     }
@@ -25,6 +26,7 @@
         --muted: #b3ab9d;
         --line: #3a352c;
         --ok: #6fd18f;
+        --accent-text: #3FA9AB; /* lighter teal so it reads on dark backgrounds */
       }
     }
 
@@ -113,17 +115,10 @@
       letter-spacing: -0.02em;
     }
 
-    h1 span {
-      background: linear-gradient(transparent 62%, var(--accent) 62%);
-      padding: 0 2px;
-    }
+    h1 span { color: var(--accent-text); }
 
-    @media (prefers-color-scheme: dark) {
-      h1 span {
-        background: none;
-        color: var(--accent);
-      }
-    }
+    a { color: var(--accent-text); }
+    a:hover { text-decoration-thickness: 2px; }
 
     .lede {
       margin: 0 0 32px;
@@ -164,7 +159,7 @@
     }
 
     input[type="email"]:focus {
-      outline: 2px solid var(--accent);
+      outline: 2px solid var(--accent-text);
       outline-offset: 0;
     }
 
@@ -216,7 +211,7 @@
     }
 
     .features li {
-      border-top: 3px solid var(--accent);
+      border-top: 3px solid var(--accent-text);
       padding-top: 10px;
       font-size: 0.95rem;
       color: var(--muted);
